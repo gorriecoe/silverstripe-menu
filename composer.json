@@ -1,0 +1,31 @@
+{
+  "name": "gorriecoe/silverstripe-menu",
+  "description": "Creates multiple menus.",
+  "type": "silverstripe-vendormodule",
+  "license": "BSD 3-Clause",
+  "authors": [
+    {
+      "name": "Gorrie Coe",
+      "email": "gorriecoe@gmail.com"
+    }
+  ],
+  "keywords": [
+    "silverstripe",
+    "modular",
+    "cms",
+    "menu",
+    "link"
+  ],
+  "homepage": "http://github.com/gorriecoe/silverstripe-menu",
+  "require": {
+    "silverstripe/admin": "^1.0",
+    "symbiote/silverstripe-gridfieldextensions": "^3.1",
+    "gorriecoe/silverstripe-links": "dev-master"
+  },
+  "extra": {
+    "installer-name": "menu",
+    "expose": [
+      "client"
+    ]
+  }
+}

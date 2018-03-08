@@ -1,0 +1,22 @@
+---
+Name: menuconfig
+Only:
+  moduleexists: silverstripe/subsite
+---
+gorriecoe\Menu\Models\MenuSet:
+  extensions:
+    - gorriecoe\Menu\Extensions\MenuSetSubsiteExtension
+---
+Only:
+  moduleexists: 'silverstripe/graphql'
+---
+SilverStripe\GraphQL\Controller:
+  schema:
+    types:
+      menuset: gorriecoe\Menu\GraphQL\MenuSetTypeCreator
+      menulink: gorriecoe\Menu\GraphQL\MenuLinkTypeCreator
+    queries:
+      menuset: gorriecoe\Menu\GraphQL\MenuSetQueryCreator
+      menusets: gorriecoe\Menu\GraphQL\MenuSetsQueryCreator
+      menulink: gorriecoe\Menu\GraphQL\MenuLinkQueryCreator
+      menulinks: gorriecoe\Menu\GraphQL\MenuLinksQueryCreator
