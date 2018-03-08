@@ -2,7 +2,7 @@
   "name": "gorriecoe/silverstripe-menu",
   "description": "Creates multiple menus.",
   "type": "silverstripe-vendormodule",
-  "license": "BSD 3-Clause",
+  "license": "BSD-3-Clause",
   "authors": [
     {
       "name": "Gorrie Coe",
