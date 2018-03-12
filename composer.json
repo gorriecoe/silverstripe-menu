@@ -20,7 +20,7 @@
   "require": {
     "silverstripe/admin": "^1.0",
     "symbiote/silverstripe-gridfieldextensions": "^3.1",
-    "gorriecoe/silverstripe-links": "dev-master"
+    "gorriecoe/silverstripe-links": "^1.0.0"
   },
   "extra": {
     "installer-name": "menu",

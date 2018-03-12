@@ -1,0 +1,18 @@
+en:
+  gorriecoe\Menu\Admin\MenuSetAdmin:
+    MENUTITLE: Menus
+  gorriecoe\Menu\Models\MenuLink:
+    CHILDREN: Children
+    PLURALNAME: Links
+    PLURALS:
+      one: 'A Link'
+      other: '{count} Links'
+    SINGULARNAME: Link
+  gorriecoe\Menu\Models\MenuSet:
+    FIELDLINKS: Links
+    PLURALNAME: Menus
+    PLURALS:
+      one: 'A Menu'
+      other: '{count} Menus'
+    SINGULARNAME: Menu
+    TABMAIN: Main
