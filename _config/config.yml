@@ -20,3 +20,15 @@ SilverStripe\GraphQL\Controller:
       menusets: gorriecoe\Menu\GraphQL\MenuSetsQueryCreator
       menulink: gorriecoe\Menu\GraphQL\MenuLinkQueryCreator
       menulinks: gorriecoe\Menu\GraphQL\MenuLinksQueryCreator
+---
+Only:
+  moduleexists: 'ryanpotter/silverstripe-cms-theme'
+---
+gorriecoe\Menu\Admin\MenuSetAdmin:
+  menu_icon_class: 'fas fa-bars'
+---
+Except:
+  moduleexists: 'ryanpotter/silverstripe-cms-theme'
+---
+gorriecoe\Menu\Admin\MenuSetAdmin:
+  menu_icon: 'gorriecoe/silverstripe-menu: client/img/menu.svg'

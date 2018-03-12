@@ -37,11 +37,6 @@ class MenuSetAdmin extends ModelAdmin
     private static $menu_title = 'Menus';
 
     /**
-     * @var string
-     */
-    private static $menu_icon = 'gorriecoe/silverstripe-menu: client/img/menu.svg';
-
-    /**
      * @var int
      */
     private static $menu_priority = 9;
