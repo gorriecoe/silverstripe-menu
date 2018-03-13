@@ -171,15 +171,17 @@ class MenuSet extends DataObject
                 $nested = true;
             }
             $slug = Convert::raw2htmlid($slug);
-            $existingRecord = MenuSet::get()->find('Slug', $slug);
-            if (!$existingRecord) {
-                $set = MenuSet::create();
-                $set->Slug = $slug;
-                $set->Title = $title;
-                $set->Nested = $nested;
-                $set->write();
+            $record = MenuSet::get()->find('Slug', $slug);
+            if (!$record) {
+                $record = MenuSet::create();
                 DB::alteration_message("Menu '$title' created", 'created');
+            } else {
+                DB::alteration_message("Menu '$title' updated", 'updated');
             }
+            $record->Slug = $slug;
+            $record->Title = $title;
+            $record->Nested = $nested;
+            $record->write();
         }
     }
 
