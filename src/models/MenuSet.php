@@ -88,8 +88,6 @@ class MenuSet extends DataObject
      */
     public function getCMSFields()
     {
-        // Requirements::javascript('gorriecoe/silverstripe-menu:client/js/menutree.js');
-
         $fields = FieldList::create(
             TabSet::create(
                 'Root',
