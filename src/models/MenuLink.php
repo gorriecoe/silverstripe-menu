@@ -7,7 +7,7 @@ use gorriecoe\Menu\Models\MenuSet;
 use gorriecoe\Menu\Models\MenuLink;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Core\Convert;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
@@ -96,7 +96,7 @@ class MenuLink extends Link
                     'Children',
                     _t(__CLASS__ . '.CHILDREN', 'Children'),
                     $this->Children(),
-                    GridFieldConfig_RelationEditor::create()
+                    GridFieldConfig_RecordEditor::create()
                         ->addComponent(new GridFieldOrderableRows())
                 )
             ]

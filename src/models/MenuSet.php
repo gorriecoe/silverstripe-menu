@@ -7,7 +7,7 @@ namespace gorriecoe\Menu\Models;
 use gorriecoe\Menu\Models\MenuLink;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
@@ -103,8 +103,8 @@ class MenuSet extends DataObject
             GridField::create(
                 'Links',
                 _t(__CLASS__ . '.FIELDLINKS', 'Links'),
-                $this->Links(),
-                GridFieldConfig_RelationEditor::create()
+                $this->Links,
+                GridFieldConfig_RecordEditor::create()
                     ->addComponent(new GridFieldOrderableRows('Sort'))
             )
         );
