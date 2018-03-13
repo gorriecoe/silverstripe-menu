@@ -86,7 +86,7 @@ class MenuLink extends Link
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        if (!$this->Nested) {
+        if (!$this->isNestable()) {
             return $fields;
         }
         $fields->addFieldsToTab(
@@ -106,10 +106,21 @@ class MenuLink extends Link
     }
 
     /**
+     * Event handler called after writing to the database.
+     */
+    public function onAfterWrite()
+    {
+        parent::onAfterWrite();
+        if ($this->ParentID > 0) {
+            $this->MenuSetID = $this->Parent()->MenuSetID;
+        }
+    }
+
+    /**
      * Checks if the menu allows nested links.
      * @return Boolean
      */
-    public function getNested()
+    public function isNestable()
     {
         return $this->MenuSet()->Nested;
     }

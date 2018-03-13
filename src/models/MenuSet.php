@@ -207,6 +207,8 @@ class MenuSet extends DataObject
      */
     public function getLinks()
     {
-        return $this->Links();
+        return $this->Links()->filter([
+            'ParentID' => 0
+        ]);
     }
 }
