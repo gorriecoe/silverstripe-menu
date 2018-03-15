@@ -3,6 +3,7 @@
 namespace gorriecoe\Menu\Admin;
 
 use gorriecoe\Menu\Models\MenuSet;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
@@ -58,5 +59,17 @@ class MenuSetAdmin extends ModelAdmin
                 GridFieldPrintButton::class
             ]);
         return $form;
+    }
+
+    /**
+     * @param Member $member
+     * @return boolean
+     */
+    public function canView($member = null)
+    {
+        if (!count(Config::inst()->get(MenuSet::class, 'sets'))) {
+            return false;
+        }
+        return parent::canView($member);
     }
 }
