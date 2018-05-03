@@ -68,7 +68,7 @@ class MenuSetAdmin extends ModelAdmin
     public function canView($member = null)
     {
         $sets = Config::inst()->get(MenuSet::class, 'sets');
-        if (!isset($sets) && !count($sets)) {
+        if (!isset($sets) || !count($sets)) {
             return false;
         }
         return parent::canView($member);
