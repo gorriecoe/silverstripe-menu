@@ -5,7 +5,6 @@ namespace gorriecoe\Menu\Models;
 use gorriecoe\Link\Models\Link;
 use gorriecoe\Menu\Models\MenuSet;
 use gorriecoe\Menu\Models\MenuLink;
-use SilverStripe\Control\Director;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Core\Convert;
@@ -146,28 +145,12 @@ class MenuLink extends Link
     }
 
     /**
-     * Returns the current page scope
-     * @return Controller
-     */
-    public function getCurrentPage()
-    {
-        return Director::get_current_page();
-    }
-
-    /**
      * Returns the classes for this link.
      * @return string
      */
     public function getClass()
     {
-        if ($this->Type == 'SiteTree'){
-            if (isset($this->SiteTreeID) && $this->CurrentPage->ID == $this->SiteTreeID) {
-                $this->setClass('current');
-            } else {
-                $this->setClass('link');
-            }
-        }
-
+        $this->setClass($this->LinkingMode());
         return parent::getClass();
     }
 }
