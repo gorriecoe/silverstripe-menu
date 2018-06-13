@@ -67,7 +67,7 @@ class MenuLink extends Link
      */
     private static $summary_fields = [
         'Title' => 'Title',
-        'LinkType' => 'Type',
+        'TypeLabel' => 'Type',
         'LinkURL' => 'Link',
         'Children.Count' => 'Children'
     ];
