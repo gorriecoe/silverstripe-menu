@@ -11,7 +11,7 @@ composer require gorriecoe/silverstripe-menu
 
 - silverstripe/framework ^4.0
 - symbiote/silverstripe-gridfieldextensions ^3.1
-- gorriecoe/silverstripe-link ^1.1
+- gorriecoe/silverstripe-links
 
 ## Maintainers
 
@@ -25,6 +25,16 @@ As it is common to reference MenuSets by name in templates, you can configure se
 gorriecoe\Menu\Models\MenuSet:
   sets:
     main: Main menu
+    secondary: Another menu
+```
+
+## Nested and flat menus
+
+By default menus will be nested, which means links can have child links associated with them.  If you need a flat menu structure, you can do so by adding `nested: false` to the yml file as shown below.
+
+```
+gorriecoe\Menu\Models\MenuSet:
+  sets:
     footer:
       title: Footer menu
       nested: false
@@ -45,5 +55,3 @@ Once you have created your menus you can add links.
     <% end_loop %>
 </ul>
 ```
-
-See [silverstripe link](https://github.com/gorriecoe/silverstripe-link) for more template options.
