@@ -11,7 +11,7 @@ composer require gorriecoe/silverstripe-menu
 
 - silverstripe/framework ^4.0
 - symbiote/silverstripe-gridfieldextensions ^3.1
-- gorriecoe/silverstripe-links
+- gorriecoe/silverstripe-link ^1.1
 
 ## Maintainers
 
@@ -45,3 +45,5 @@ Once you have created your menus you can add links.
     <% end_loop %>
 </ul>
 ```
+
+See [silverstripe link](https://github.com/gorriecoe/silverstripe-link) for more template options.
