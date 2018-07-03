@@ -2,15 +2,15 @@
 
 namespace gorriecoe\Menu\Models;
 
-// use GridFieldOrderableRows;
-
-use gorriecoe\Menu\Models\MenuLink;
+use gorriecoe\Menu\Admin\MenuSetAdmin;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
+use SilverStripe\ORM\FieldType\DBBoolean;
+use SilverStripe\ORM\FieldType\DBVarchar;
 use SilverStripe\Security\Permission;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\DataObject;
@@ -21,6 +21,11 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  * MenuSet
  *
  * @package silverstripe-menu
+ * @property string $Title
+ * @property string $Slug
+ * @property boolean $Nested
+ *
+ * @method \SilverStripe\ORM\HasManyList|MenuLink[] Links()
  */
 class MenuSet extends DataObject
 {
@@ -51,9 +56,9 @@ class MenuSet extends DataObject
      * @var array
      */
     private static $db = [
-        'Title' => 'Varchar(255)',
-        'Slug' => 'Varchar(255)',
-        'Nested' => 'Boolean'
+        'Title' => DBVarchar::class,
+        'Slug' => DBVarchar::class,
+        'Nested' => DBBoolean::class,
     ];
 
     /**
@@ -101,7 +106,7 @@ class MenuSet extends DataObject
             GridField::create(
                 'Links',
                 _t(__CLASS__ . '.FIELDLINKS', 'Links'),
-                $this->Links,
+                $this->Links(),
                 GridFieldConfig_RecordEditor::create()
                     ->addComponent(new GridFieldOrderableRows('Sort'))
             )
@@ -140,7 +145,7 @@ class MenuSet extends DataObject
      */
     public function canEdit($member = null)
     {
-        return Permission::check('SITEMENUEDIT', 'any', $member);
+        return Permission::check(MenuSetAdmin::CMS_ACCESS_PERMISSION, 'any', $member);
     }
 
     /**
@@ -150,7 +155,7 @@ class MenuSet extends DataObject
      */
     public function canView($member = null)
     {
-        return Permission::check('SITEMENUEDIT', 'any', $member);
+        return Permission::check(MenuSetAdmin::CMS_ACCESS_PERMISSION, 'any', $member);
     }
 
     /**
@@ -201,7 +206,7 @@ class MenuSet extends DataObject
 
     /**
      * Relationship accessor for Graphql
-     * @return ManyManyList MenuLink
+     * @return \SilverStripe\ORM\ManyManyList MenuLink
      */
     public function getLinks()
     {

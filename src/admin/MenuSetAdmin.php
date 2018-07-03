@@ -17,6 +17,8 @@ use SilverStripe\Forms\GridField\GridFieldExportButton;
  */
 class MenuSetAdmin extends ModelAdmin
 {
+    const CMS_ACCESS_PERMISSION = 'CMS_ACCESS_' . self::class;
+
     /**
      * Managed data objects for CMS
      * @var array
