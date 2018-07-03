@@ -3,17 +3,23 @@
 namespace gorriecoe\Menu\Models;
 
 use gorriecoe\Link\Models\Link;
-use gorriecoe\Menu\Models\MenuSet;
-use gorriecoe\Menu\Models\MenuLink;
+use gorriecoe\Menu\Admin\MenuSetAdmin;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\Core\Convert;
+use SilverStripe\ORM\FieldType\DBInt;
+use SilverStripe\Security\Permission;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * MenuLink
  *
  * @package silverstripe-menu
+ *
+ * @property int ParentID
+ * @property int MenuSetID
+ * @method \SilverStripe\ORM\DataList|MenuLink[] Children()
+ * @method MenuSet|null MenuSet()
+ * @method MenuLink|null Parent()
  */
 class MenuLink extends Link
 {
@@ -40,7 +46,7 @@ class MenuLink extends Link
      * @var array
      */
     private static $db = [
-        'Sort' => 'Int'
+        'Sort' => DBInt::class,
     ];
 
     /**
@@ -80,7 +86,7 @@ class MenuLink extends Link
 
     /**
      * CMS Fields
-     * @return FieldList
+     * @return \SilverStripe\Forms\FieldList
      */
     public function getCMSFields()
     {
@@ -126,18 +132,18 @@ class MenuLink extends Link
 
     /**
      * Relationship accessor for Graphql
-     * @return MenuLink
+     * @return MenuLink|null
      */
     public function getParent()
     {
-        if ($this->ParentID) {
-            return $this->Parent();
-        }
+        return $this->ParentID
+            ? $this->Parent()
+            : null;
     }
 
     /**
      * Relationship accessor for Graphql
-     * @return ManyManyList MenuLink
+     * @return \SilverStripe\ORM\ManyManyList|MenuLink[]
      */
     public function getChildren()
     {
@@ -152,5 +158,37 @@ class MenuLink extends Link
     {
         $this->setClass($this->LinkingMode());
         return parent::getClass();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function canView($member = null)
+    {
+        return Permission::check(MenuSetAdmin::CMS_ACCESS_PERMISSION, 'any', $member);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function canEdit($member = null)
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function canDelete($member = null)
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function canCreate($member = null, $context = [])
+    {
+        return Permission::check(MenuSetAdmin::CMS_ACCESS_PERMISSION, 'any', $member);
     }
 }
