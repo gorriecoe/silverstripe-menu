@@ -8,6 +8,7 @@ use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 
 /**
  * CMS Admin area to maintain menus
@@ -56,7 +57,8 @@ class MenuSetAdmin extends ModelAdmin
             ->removeComponentsByType([
                 GridFieldImportButton::class,
                 GridFieldExportButton::class,
-                GridFieldPrintButton::class
+                GridFieldPrintButton::class,
+                GridFieldDeleteAction::class
             ]);
         return $form;
     }
