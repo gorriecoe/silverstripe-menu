@@ -2,9 +2,6 @@
 
 namespace gorriecoe\Menu\Models;
 
-// use GridFieldOrderableRows;
-
-use gorriecoe\Menu\Models\MenuLink;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
@@ -15,14 +12,17 @@ use SilverStripe\Security\Permission;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Control\Controller;
+use SilverStripe\Security\PermissionProvider;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use gorriecoe\Menu\Models\MenuLink;
 
 /**
  * MenuSet
  *
  * @package silverstripe-menu
  */
-class MenuSet extends DataObject
+class MenuSet extends DataObject implements
+    PermissionProvider
 {
     /**
      * Defines the database table name
@@ -113,6 +113,37 @@ class MenuSet extends DataObject
     }
 
     /**
+     * Return a map of permission codes to add to the dropdown shown in the Security section of the CMS
+     * @return array
+     */
+    public function providePermissions()
+    {
+        $permissions = [];
+        foreach (MenuSet::get() as $menuset) {
+            $key = $menuset->PermissionKey();
+            $permissions[$key] = [
+                'name' => _t(
+                    __CLASS__ . '.EDITMENUSET',
+                    "Manage links with in '{name}'",
+                    [
+                        'name' => $menuset->obj('Title')
+                    ]
+                ),
+                'category' => _t(__CLASS__ . '.MENUSETS', 'Menu sets')
+            ];
+        }
+        return $permissions;
+    }
+
+    /**
+     * @return string
+     */
+    public function PermissionKey()
+    {
+        return $this->obj('Slug')->Uppercase() . 'EDIT';
+    }
+
+    /**
      * Creating Permissions.
      * This module is not intended to allow creating menus via CMS.
      * @return boolean
@@ -140,7 +171,7 @@ class MenuSet extends DataObject
      */
     public function canEdit($member = null)
     {
-        return Permission::check('SITEMENUEDIT', 'any', $member);
+        return Permission::check($this->PermissionKey(), 'any', $member);
     }
 
     /**
@@ -150,7 +181,7 @@ class MenuSet extends DataObject
      */
     public function canView($member = null)
     {
-        return Permission::check('SITEMENUEDIT', 'any', $member);
+        return Permission::check($this->PermissionKey(), 'any', $member);
     }
 
     /**

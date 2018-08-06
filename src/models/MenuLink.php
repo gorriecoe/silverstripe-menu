@@ -2,13 +2,12 @@
 
 namespace gorriecoe\Menu\Models;
 
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use gorriecoe\Link\Models\Link;
 use gorriecoe\Menu\Models\MenuSet;
 use gorriecoe\Menu\Models\MenuLink;
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\Core\Convert;
-use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * MenuLink
@@ -152,5 +151,47 @@ class MenuLink extends Link
     {
         $this->setClass($this->LinkingMode());
         return parent::getClass();
+    }
+
+    /**
+     * DataObject view permissions
+     * @param Member $member
+     * @return boolean
+     */
+    public function canView($member = null)
+    {
+        return $this->MenuSet()->canView($member);
+    }
+
+    /**
+     * DataObject edit permissions
+     * @param Member $member
+     * @return boolean
+     */
+    public function canEdit($member = null)
+    {
+        return $this->MenuSet()->canEdit($member);
+    }
+
+    /**
+     * DataObject delete permissions
+     * @param Member $member
+     * @return boolean
+     */
+    public function canDelete($member = null)
+    {
+        return $this->MenuSet()->canDelete($member);
+    }
+
+    /**
+     * DataObject create permissions
+     * @param Member $member
+     * @param array $context Additional context-specific data which might
+     * affect whether (or where) this object could be created.
+     * @return boolean
+     */
+    public function canCreate($member = null, $context = [])
+    {
+        return $this->MenuSet()->canCreate($member);
     }
 }
