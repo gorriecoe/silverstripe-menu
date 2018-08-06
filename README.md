@@ -11,7 +11,7 @@ composer require gorriecoe/silverstripe-menu
 
 - silverstripe/framework ^4.0
 - symbiote/silverstripe-gridfieldextensions ^3.1
-- gorriecoe/silverstripe-links
+- gorriecoe/silverstripe-link ^1.1
 
 ## Maintainers
 
@@ -30,14 +30,14 @@ gorriecoe\Menu\Models\MenuSet:
 
 ## Nested and flat menus
 
-By default menus will be nested, which means links can have child links associated with them.  If you need a flat menu structure, you can do so by adding `nested: false` to the yml file as shown below.
+By default menus will be flat, which means links can not have child links associated with them.  If you need a nested menu structure, you can do so by adding `allow_children: true` to the yml file as shown below.
 
 ```
 gorriecoe\Menu\Models\MenuSet:
   sets:
     footer:
       title: Footer menu
-      nested: false
+      allow_children: true
 ```
 
 ## Adding links to menus
@@ -55,3 +55,5 @@ Once you have created your menus you can add links.
     <% end_loop %>
 </ul>
 ```
+
+See [silverstripe link](https://github.com/gorriecoe/silverstripe-link) for more template options.

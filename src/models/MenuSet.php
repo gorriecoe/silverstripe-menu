@@ -53,7 +53,7 @@ class MenuSet extends DataObject implements
     private static $db = [
         'Title' => 'Varchar(255)',
         'Slug' => 'Varchar(255)',
-        'Nested' => 'Boolean'
+        'AllowChildren' => 'Boolean'
     ];
 
     /**
@@ -194,10 +194,10 @@ class MenuSet extends DataObject implements
         foreach ($default_menu_sets as $slug => $options) {
             if (is_array($options)) {
                 $title = $options['title'];
-                $nested = isset($options['nested']) ? $options['nested'] : true;
+                $allowChildren = isset($options['allow_children']) ? $options['allow_children'] : false;
             } else {
                 $title = $options;
-                $nested = true;
+                $allowChildren = false;
             }
             $slug = Convert::raw2htmlid($slug);
             $record = MenuSet::get()->find('Slug', $slug);
@@ -209,7 +209,7 @@ class MenuSet extends DataObject implements
             }
             $record->Slug = $slug;
             $record->Title = $title;
-            $record->Nested = $nested;
+            $record->AllowChildren = $allowChildren;
             $record->write();
         }
     }
