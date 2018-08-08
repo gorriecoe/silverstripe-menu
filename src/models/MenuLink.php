@@ -192,6 +192,9 @@ class MenuLink extends Link
      */
     public function canCreate($member = null, $context = [])
     {
-        return $context['Parent']->canEdit() || $this->MenuSet()->canEdit();
+        if (isset($context['Parent'])) {
+             return $context['Parent']->canEdit();
+        }
+        return $this->MenuSet()->canEdit();
     }
 }
