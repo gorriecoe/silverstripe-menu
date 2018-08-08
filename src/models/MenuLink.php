@@ -160,7 +160,7 @@ class MenuLink extends Link
      */
     public function canView($member = null)
     {
-        return $this->MenuSet()->canView($member);
+        return $this->MenuSet()->canEdit($member);
     }
 
     /**
@@ -180,7 +180,7 @@ class MenuLink extends Link
      */
     public function canDelete($member = null)
     {
-        return $this->MenuSet()->canDelete($member);
+        return $this->MenuSet()->canEdit($member);
     }
 
     /**
