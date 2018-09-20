@@ -1,6 +1,6 @@
 {
   "name": "gorriecoe/silverstripe-menu",
-  "description": "Creates multiple menus.",
+  "description": "Adds multiple menus that are defined via yml and managed via the cms.",
   "type": "silverstripe-vendormodule",
   "license": "BSD-3-Clause",
   "authors": [
