@@ -2,19 +2,22 @@
 
 namespace gorriecoe\Menu\Models;
 
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use gorriecoe\Link\Models\Link;
 use gorriecoe\Menu\Models\MenuSet;
 use gorriecoe\Menu\Models\MenuLink;
+use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
+use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * MenuLink
  *
  * @package silverstripe-menu
  */
-class MenuLink extends Link
+class MenuLink extends Link implements
+    ScaffoldingProvider
 {
     /**
      * Defines the database table name
@@ -135,15 +138,6 @@ class MenuLink extends Link
     }
 
     /**
-     * Relationship accessor for Graphql
-     * @return ManyManyList MenuLink
-     */
-    public function getChildren()
-    {
-        return $this->Children();
-    }
-
-    /**
      * Returns the classes for this link.
      * @return string
      */
@@ -181,6 +175,34 @@ class MenuLink extends Link
     public function canDelete($member = null)
     {
         return $this->MenuSet()->canEdit($member);
+    }
+
+    public function provideGraphQLScaffolding(SchemaScaffolder $scaffolder)
+    {
+        $scaffolder->type(MenuLink::class)
+            ->addAllFields()
+            ->addFields(['LinkURL'])
+            ->nestedQuery('Children')
+                ->setUsePagination(false)
+                ->end()
+            ->operation(SchemaScaffolder::READ)
+                ->setName('readMenuLinks')
+                ->setUsePagination(false)
+                ->end()
+            ->operation(SchemaScaffolder::READ_ONE)
+                ->setName('readOneMenuLink')
+                ->end()
+            ->operation(SchemaScaffolder::CREATE)
+                ->setName('createMenuLink')
+                ->end()
+            ->operation(SchemaScaffolder::UPDATE)
+                ->setName('updateMenuLink')
+                ->end()
+            ->operation(SchemaScaffolder::DELETE)
+                ->setName('deleteMenuLink')
+                ->end()
+            ->end();
+        return $scaffolder;
     }
 
     /**

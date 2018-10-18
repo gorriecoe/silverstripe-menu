@@ -12,14 +12,9 @@ Only:
 ---
 SilverStripe\GraphQL\Controller:
   schema:
-    types:
-      menuset: gorriecoe\Menu\GraphQL\MenuSetTypeCreator
-      menulink: gorriecoe\Menu\GraphQL\MenuLinkTypeCreator
-    queries:
-      menuset: gorriecoe\Menu\GraphQL\MenuSetQueryCreator
-      menusets: gorriecoe\Menu\GraphQL\MenuSetsQueryCreator
-      menulink: gorriecoe\Menu\GraphQL\MenuLinkQueryCreator
-      menulinks: gorriecoe\Menu\GraphQL\MenuLinksQueryCreator
+    scaffolding_providers:
+      - gorriecoe\Menu\Models\MenuSet
+      - gorriecoe\Menu\Models\MenuLink
 ---
 Only:
   moduleexists: 'ryanpotter/silverstripe-cms-theme'
