@@ -15,6 +15,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
 use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
+use GraphQL\Type\Definition\ResolveInfo;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use gorriecoe\Menu\Models\MenuLink;
 
