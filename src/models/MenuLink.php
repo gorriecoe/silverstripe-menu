@@ -177,6 +177,21 @@ class MenuLink extends Link implements
         return $this->MenuSet()->canEdit($member);
     }
 
+    /**
+     * DataObject create permissions
+     * @param Member $member
+     * @param array $context Additional context-specific data which might
+     * affect whether (or where) this object could be created.
+     * @return boolean
+     */
+    public function canCreate($member = null, $context = [])
+    {
+        if (isset($context['Parent'])) {
+             return $context['Parent']->canEdit();
+        }
+        return $this->MenuSet()->canEdit();
+    }
+
     public function provideGraphQLScaffolding(SchemaScaffolder $scaffolder)
     {
         $scaffolder->type(MenuLink::class)
@@ -203,20 +218,5 @@ class MenuLink extends Link implements
                 ->end()
             ->end();
         return $scaffolder;
-    }
-
-    /**
-     * DataObject create permissions
-     * @param Member $member
-     * @param array $context Additional context-specific data which might
-     * affect whether (or where) this object could be created.
-     * @return boolean
-     */
-    public function canCreate($member = null, $context = [])
-    {
-        if (isset($context['Parent'])) {
-             return $context['Parent']->canEdit();
-        }
-        return $this->MenuSet()->canEdit();
     }
 }
