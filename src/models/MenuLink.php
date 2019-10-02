@@ -107,14 +107,18 @@ class MenuLink extends Link implements
     }
 
     /**
-     * Event handler called after writing to the database.
+     * Inherit menuset from parent, if not directly assigned
+     *
+     * @return MenuSet
      */
-    public function onAfterWrite()
+    public function MenuSet()
     {
-        parent::onAfterWrite();
-        if ($this->ParentID > 0) {
-            $this->MenuSetID = $this->Parent()->MenuSetID;
+        if ($this->ParentID) {
+            return $this->Parent()->MenuSet();
         }
+        /** @var MenuSet $menuSet */
+        $menuSet = $this->getComponent('MenuSet');
+        return $menuSet;
     }
 
     /**
