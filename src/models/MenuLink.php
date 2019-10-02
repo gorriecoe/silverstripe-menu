@@ -3,17 +3,23 @@
 namespace gorriecoe\Menu\Models;
 
 use gorriecoe\Link\Models\Link;
-use gorriecoe\Menu\Models\MenuSet;
-use gorriecoe\Menu\Models\MenuLink;
-use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
-use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
+use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\Security\Member;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * MenuLink
  *
+ * @property int $MenuSetID
+ * @property int $ParentID
+ * @property int $Sort
+ * @method MenuLink Parent()
+ * @method HasManyList|MenuLink[] Children()
  * @package silverstripe-menu
  */
 class MenuLink extends Link implements
@@ -51,7 +57,7 @@ class MenuLink extends Link implements
      */
     private static $has_one = [
         'MenuSet' => MenuSet::class,
-        'Parent' => MenuLink::class
+        'Parent'  => MenuLink::class
     ];
 
     /**
@@ -68,9 +74,9 @@ class MenuLink extends Link implements
      * @var array
      */
     private static $summary_fields = [
-        'Title' => 'Title',
-        'TypeLabel' => 'Type',
-        'LinkURL' => 'Link',
+        'Title'          => 'Title',
+        'TypeLabel'      => 'Type',
+        'LinkURL'        => 'Link',
         'Children.Count' => 'Children'
     ];
 
@@ -132,13 +138,15 @@ class MenuLink extends Link implements
 
     /**
      * Relationship accessor for Graphql
-     * @return MenuLink
+     *
+     * @return MenuLink|null
      */
     public function getParent()
     {
         if ($this->ParentID) {
             return $this->Parent();
         }
+        return null;
     }
 
     /**
@@ -184,14 +192,14 @@ class MenuLink extends Link implements
     /**
      * DataObject create permissions
      * @param Member $member
-     * @param array $context Additional context-specific data which might
-     * affect whether (or where) this object could be created.
+     * @param array  $context Additional context-specific data which might
+     *                        affect whether (or where) this object could be created.
      * @return boolean
      */
     public function canCreate($member = null, $context = [])
     {
         if (isset($context['Parent'])) {
-             return $context['Parent']->canEdit();
+            return $context['Parent']->canEdit();
         }
         return $this->MenuSet()->canEdit();
     }

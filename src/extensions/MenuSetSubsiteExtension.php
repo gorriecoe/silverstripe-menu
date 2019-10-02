@@ -47,7 +47,7 @@ class MenuSetSubsiteExtension extends DataExtension
     public function onBeforeWrite()
     {
         $owner = $this->owner;
-        if(!$owner->ID && !$owner->SubsiteID){
+        if (!$owner->ID && !$owner->SubsiteID) {
             $owner->SubsiteID = Subsite::currentSubsiteID();
         }
         parent::onBeforeWrite();
