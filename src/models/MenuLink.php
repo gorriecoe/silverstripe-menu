@@ -166,7 +166,7 @@ class MenuLink extends Link implements
      */
     public function canView($member = null)
     {
-        return $this->MenuSet()->canEdit($member);
+        return true;
     }
 
     /**
