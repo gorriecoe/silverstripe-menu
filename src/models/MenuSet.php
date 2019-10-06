@@ -2,26 +2,31 @@
 
 namespace gorriecoe\Menu\Models;
 
+use GraphQL\Type\Definition\ResolveInfo;
+use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
-use SilverStripe\Security\Permission;
-use SilverStripe\ORM\DB;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\Control\Controller;
-use SilverStripe\Security\PermissionProvider;
 use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
 use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
-use GraphQL\Type\Definition\ResolveInfo;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DB;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\PermissionProvider;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
-use gorriecoe\Menu\Models\MenuLink;
 
 /**
  * MenuSet
  *
+ * @property string $Title
+ * @property string $Slug
+ * @property bool   $AllowChildren
+ * @method HasManyList|MenuLink[] Links()
  * @package silverstripe-menu
  */
 class MenuSet extends DataObject implements
@@ -55,8 +60,8 @@ class MenuSet extends DataObject implements
      * @var array
      */
     private static $db = [
-        'Title' => 'Varchar(255)',
-        'Slug' => 'Varchar(255)',
+        'Title'         => 'Varchar(255)',
+        'Slug'          => 'Varchar(255)',
         'AllowChildren' => 'Boolean'
     ];
 
@@ -74,7 +79,7 @@ class MenuSet extends DataObject implements
      * @var array
      */
     private static $summary_fields = [
-        'Title' => 'Title',
+        'Title'       => 'Title',
         'Links.Count' => 'Links'
     ];
 
@@ -97,7 +102,7 @@ class MenuSet extends DataObject implements
                 'Root',
                 Tab::create('Main')
             )
-            ->setTitle(_t(__CLASS__ . '.TABMAIN', 'Main'))
+                ->setTitle(_t(__CLASS__ . '.TABMAIN', 'Main'))
         );
 
         $fields->addFieldToTab(
@@ -126,7 +131,7 @@ class MenuSet extends DataObject implements
         foreach (MenuSet::get() as $menuset) {
             $key = $menuset->PermissionKey();
             $permissions[$key] = [
-                'name' => _t(
+                'name'     => _t(
                     __CLASS__ . '.EDITMENUSET',
                     "Manage links with in '{name}'",
                     [
@@ -223,7 +228,8 @@ class MenuSet extends DataObject implements
      *
      * @return string
      */
-    public function CMSEditLink() {
+    public function CMSEditLink()
+    {
         return Controller::join_links(
             Controller::curr()->Link(),
             'EditForm',
