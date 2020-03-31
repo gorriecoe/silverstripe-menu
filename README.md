@@ -1,7 +1,5 @@
 # Silverstripe menus
 
-[![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/E1E5HWRR)
-
 Adds multiple menus that are defined via yml and managed via the cms.
 
 ## Installation
