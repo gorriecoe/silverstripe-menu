@@ -57,4 +57,4 @@ Once you have created your menus you can add links.
 </ul>
 ```
 
-See [silverstripe link](https://github.com/gorriecoe/silverstripe-link) for more template options.
+See [silverstripe link](https://github.com/gorriecoe/silverstripe-link#template-options) for more template options.
