@@ -31,8 +31,8 @@ class MenuManagerTemplateProvider implements TemplateGlobalProvider
         if (!$slug) {
             return;
         }
-        if ($MenuSet = MenuSet::get()->find('Slug', $slug)) {
-            return $MenuSet->Links();
+        if ($menuSet = MenuSet::get_by_slug($slug)) {
+            return $menuSet->Links();
         }
     }
 }

@@ -241,6 +241,18 @@ class MenuSet extends DataObject implements
     }
 
     /**
+     * Return the first menuset matching the given slug.
+     *
+     * @return gorriecoe\Menu\Models\MenuSet|Null
+     */
+    public static function get_by_slug($slug)
+    {
+        if ($slug) {
+            return self::get()->find('Slug', $slug);
+        }
+    }
+
+    /**
      * Relationship accessor for Graphql
      * @return ManyManyList MenuLink
      */

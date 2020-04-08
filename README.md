@@ -43,7 +43,20 @@ gorriecoe\Menu\Models\MenuSet:
 
 ## Adding links to menus
 
-Once you have created your menus you can add links.
+Once you have created your menus you can add links in the admin area.  The fields are inherited from [silverstripe link](https://github.com/gorriecoe/silverstripe-link).
+
+## Automatically add links from sitetree to specific menus
+
+If you need to automatically add links to a menu after the creation of a page, you can do so by adding the following extension to page and defining `owns_menu`.
+
+```
+Page:
+  extensions:
+    - gorriecoe\Menu\Extensions\SiteTreeAutoCreateExtension
+  owns_menu:
+    - main
+    - footer
+```
 
 ## Usage in template
 
