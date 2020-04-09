@@ -3,12 +3,14 @@
 namespace gorriecoe\Menu\Models;
 
 use gorriecoe\Link\Models\Link;
+use gorriecoe\Menu\Models\MenuSet;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
 use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
 use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
@@ -230,5 +232,28 @@ class MenuLink extends Link implements
                 ->end()
             ->end();
         return $scaffolder;
+    }
+
+    /**
+     * Return the first menulink matching the given MenuSet and SiteTreeID.
+     *
+     * @param gorriecoe\Menu\Models\MenuSet|String
+     * @param Int
+     *
+     * @return gorriecoe\Menu\Models\MenuLink|Null
+     */
+    public static function get_by_sitetreeID($menuSet, Int $siteTreeID)
+    {
+        if (!$menuSet instanceof MenuSet) {
+            $menuSet = MenuSet::get_by_slug($menuSet);
+        }
+        if (!$menuSet) {
+            return;
+        }
+        return DataObject::get_one(self::class, [
+            'Type' => 'SiteTree', // Ensures the admin hasn't intentionally changed this link
+            'MenuSetID' => $menuSet->ID,
+            'SiteTreeID' => $siteTreeID
+        ]);
     }
 }

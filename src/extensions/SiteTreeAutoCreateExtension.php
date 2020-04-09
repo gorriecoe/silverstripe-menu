@@ -5,7 +5,6 @@ namespace gorriecoe\Menu\Extensions;
 use gorriecoe\Menu\Models\MenuSet;
 use gorriecoe\Menu\Models\MenuLink;
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataExtension;
 
 /**
@@ -36,19 +35,13 @@ class SiteTreeAutoCreateExtension extends DataExtension
     }
 
     /**
-     * Event handler called after writing to the database.
+     * Event handler called after Publishing to the live sitetree.
      */
-    public function onAfterWrite()
+    public function onAfterPublish()
     {
-        parent::onAfterWrite();
         $owner = $this->owner;
-
-        foreach ($this->getOwnsMenu() as $menuSet) {
-            $menuLink = DataObject::get_one(MenuLink::class, [
-                'Type' => 'SiteTree', // Ensures the editor hasn't intentionally changed this link.
-                'MenuSetID' => $menuSet->ID,
-                'SiteTreeID' => $owner->ID
-            ]);
+        foreach ($owner->OwnsMenu as $menuSet) {
+            $menuLink = MenuLink::get_by_sitetreeID($menuSet, $owner->ID);
             if ($menuLink) {
                 $menuLink->setField('Title', $owner->MenuTitle);
             } else {
@@ -63,19 +56,28 @@ class SiteTreeAutoCreateExtension extends DataExtension
     }
 
     /**
+     * Event handler called before unpublishing from live sitetree.
+     */
+    public function onBeforeUnpublish()
+    {
+        $owner = $this->owner;
+        foreach ($owner->OwnsMenu as $menuSet) {
+            $menuLink = MenuLink::get_by_sitetreeID($menuSet, $owner->ID);
+            if ($menuLink) {
+                $menuLink->delete();
+            }
+        }
+    }
+
+    /**
      * Event handler called before deleting from the database.
      */
     public function onBeforeDelete()
     {
-        parent::onBeforeDelete();
         $owner = $this->owner;
 
-        foreach ($this->getOwnsMenu() as $menuSet) {
-            $menuLink = DataObject::get_one(MenuLink::class, [
-                'Type' => 'SiteTree',
-                'MenuSetID' => $menuSet->ID,
-                'SiteTreeID' => $owner->ID
-            ]);
+        foreach ($owner->OwnsMenu as $menuSet) {
+            $menuLink = MenuLink::get_by_sitetreeID($menuSet, $owner->ID);
             if ($menuLink) {
                 $menuLink->delete();
             }
