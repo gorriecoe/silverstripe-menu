@@ -55,10 +55,6 @@ class MenuSet extends DataObject implements
      * Database fields
      * @var array
      */
-    /**
-     * Database fields
-     * @var array
-     */
     private static $db = [
         'Title'         => 'Varchar(255)',
         'Slug'          => 'Varchar(255)',
