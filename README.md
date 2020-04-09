@@ -12,7 +12,7 @@ composer require gorriecoe/silverstripe-menu
 
 - silverstripe/framework ^4.0
 - symbiote/silverstripe-gridfieldextensions ^3.1
-- gorriecoe/silverstripe-link ^1.1
+- [gorriecoe/silverstripe link](https://github.com/gorriecoe/silverstripe-link) ^1.1
 
 ## Maintainers
 
@@ -20,7 +20,7 @@ composer require gorriecoe/silverstripe-menu
 
 ## Creating custom menus
 
-As it is common to reference MenuSets by name in templates, you can configure sets to be created automatically during the /dev/build task. These sets cannot be deleted through the CMS.
+As it is common to reference MenuSets by slug in templates, you can configure sets to be created automatically during the /dev/build task. These sets cannot be deleted through the CMS.
 
 ```
 gorriecoe\Menu\Models\MenuSet:
