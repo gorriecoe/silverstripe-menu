@@ -15,15 +15,3 @@ SilverStripe\GraphQL\Controller:
     scaffolding_providers:
       - gorriecoe\Menu\Models\MenuSet
       - gorriecoe\Menu\Models\MenuLink
----
-Only:
-  moduleexists: 'ryanpotter/silverstripe-cms-theme'
----
-gorriecoe\Menu\Admin\MenuSetAdmin:
-  menu_icon_class: 'fas fa-bars'
----
-Except:
-  moduleexists: 'ryanpotter/silverstripe-cms-theme'
----
-gorriecoe\Menu\Admin\MenuSetAdmin:
-  menu_icon: 'gorriecoe/silverstripe-menu: client/img/menu.svg'

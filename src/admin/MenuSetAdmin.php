@@ -42,6 +42,12 @@ class MenuSetAdmin extends ModelAdmin
     private static $menu_title = 'Menus';
 
     /**
+     * Menu icon for Left and Main CMS
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-list';
+
+    /**
      * @var int
      */
     private static $menu_priority = 9;
