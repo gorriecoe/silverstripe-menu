@@ -23,9 +23,6 @@
     "gorriecoe/silverstripe-link": "^1.1"
   },
   "extra": {
-    "installer-name": "menu",
-    "expose": [
-      "client"
-    ]
+    "installer-name": "menu"
   }
 }
