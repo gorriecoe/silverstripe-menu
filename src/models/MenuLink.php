@@ -3,14 +3,14 @@
 namespace gorriecoe\Menu\Models;
 
 use gorriecoe\Link\Models\Link;
-use gorriecoe\Menu\Models\MenuSet;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
 use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
-use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\HasManyList;
 use SilverStripe\Security\Member;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
@@ -255,5 +255,32 @@ class MenuLink extends Link implements
             'MenuSetID' => $menuSet->ID,
             'SiteTreeID' => $siteTreeID
         ]);
+    }
+
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+
+        // When writing initial record, set position to last in menu
+        if (!$this->isInDB() && is_null($this->Sort)) {
+            $this->Sort = $this->getSiblings()->max('Sort') + 1;
+        }
+    }
+
+    /**
+     * Get sibling links
+     *
+     * @return DataList|MenuLink[]
+     */
+    public function getSiblings(): DataList
+    {
+        $siblings = static::get();
+        if ($this->ParentID) {
+            $siblings = $siblings->filter('ParentID', $this->ParentID);
+        }
+        if ($this->MenuSetID) {
+            $siblings = $siblings->filter('MenuSetID', $this->MenuSetID);
+        }
+        return $siblings;
     }
 }
