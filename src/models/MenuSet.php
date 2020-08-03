@@ -176,6 +176,10 @@ class MenuSet extends DataObject implements
      */
     public function canEdit($member = null)
     {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
         return Permission::check($this->PermissionKey(), 'any', $member);
     }
 
@@ -186,6 +190,10 @@ class MenuSet extends DataObject implements
      */
     public function canView($member = null)
     {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
         return Permission::check($this->PermissionKey(), 'any', $member);
     }
 
@@ -264,23 +272,23 @@ class MenuSet extends DataObject implements
         $scaffolder->type(MenuSet::class)
             ->addAllFields()
             ->nestedQuery('Links')
-                ->setUsePagination(false)
-                ->end()
-            ->operation(SchemaScaffolder::READ)
-                ->setName('readMenuSets')
-                ->setUsePagination(false)
-                ->end()
-            ->operation(SchemaScaffolder::CREATE)
-                ->setName('createMenuSet')
-                ->end()
-            ->operation(SchemaScaffolder::UPDATE)
-                ->setName('updateMenuSet')
-                ->end()
-            ->operation(SchemaScaffolder::DELETE)
-                ->setName('deleteMenuSet')
-                ->end()
+            ->setUsePagination(false)
             ->end()
-        ->query('readOneMenuSet', MenuSet::class)
+            ->operation(SchemaScaffolder::READ)
+            ->setName('readMenuSets')
+            ->setUsePagination(false)
+            ->end()
+            ->operation(SchemaScaffolder::CREATE)
+            ->setName('createMenuSet')
+            ->end()
+            ->operation(SchemaScaffolder::UPDATE)
+            ->setName('updateMenuSet')
+            ->end()
+            ->operation(SchemaScaffolder::DELETE)
+            ->setName('deleteMenuSet')
+            ->end()
+            ->end()
+            ->query('readOneMenuSet', MenuSet::class)
             ->setUsePagination(false)
             ->addArgs([
                 'Slug' => 'String!'

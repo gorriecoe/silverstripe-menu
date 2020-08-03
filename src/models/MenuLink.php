@@ -168,6 +168,10 @@ class MenuLink extends Link implements
      */
     public function canView($member = null)
     {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
         return true;
     }
 
@@ -178,6 +182,10 @@ class MenuLink extends Link implements
      */
     public function canEdit($member = null)
     {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
         return $this->MenuSet()->canEdit($member);
     }
 
@@ -188,6 +196,10 @@ class MenuLink extends Link implements
      */
     public function canDelete($member = null)
     {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
         return $this->MenuSet()->canEdit($member);
     }
 
@@ -200,6 +212,10 @@ class MenuLink extends Link implements
      */
     public function canCreate($member = null, $context = [])
     {
+        $extended = $this->extendedCan(__FUNCTION__, $member, $context);
+        if ($extended !== null) {
+            return $extended;
+        }
         if (isset($context['Parent'])) {
             return $context['Parent']->canEdit();
         }
@@ -212,24 +228,24 @@ class MenuLink extends Link implements
             ->addAllFields()
             ->addFields(['LinkURL'])
             ->nestedQuery('Children')
-                ->setUsePagination(false)
-                ->end()
+            ->setUsePagination(false)
+            ->end()
             ->operation(SchemaScaffolder::READ)
-                ->setName('readMenuLinks')
-                ->setUsePagination(false)
-                ->end()
+            ->setName('readMenuLinks')
+            ->setUsePagination(false)
+            ->end()
             ->operation(SchemaScaffolder::READ_ONE)
-                ->setName('readOneMenuLink')
-                ->end()
+            ->setName('readOneMenuLink')
+            ->end()
             ->operation(SchemaScaffolder::CREATE)
-                ->setName('createMenuLink')
-                ->end()
+            ->setName('createMenuLink')
+            ->end()
             ->operation(SchemaScaffolder::UPDATE)
-                ->setName('updateMenuLink')
-                ->end()
+            ->setName('updateMenuLink')
+            ->end()
             ->operation(SchemaScaffolder::DELETE)
-                ->setName('deleteMenuLink')
-                ->end()
+            ->setName('deleteMenuLink')
+            ->end()
             ->end();
         return $scaffolder;
     }
@@ -242,7 +258,7 @@ class MenuLink extends Link implements
      *
      * @return gorriecoe\Menu\Models\MenuLink|Null
      */
-    public static function get_by_sitetreeID($menuSet, Int $siteTreeID)
+    public static function get_by_sitetreeID($menuSet, int $siteTreeID)
     {
         if (!$menuSet instanceof MenuSet) {
             $menuSet = MenuSet::get_by_slug($menuSet);
@@ -251,8 +267,8 @@ class MenuLink extends Link implements
             return;
         }
         return DataObject::get_one(self::class, [
-            'Type' => 'SiteTree', // Ensures the admin hasn't intentionally changed this link
-            'MenuSetID' => $menuSet->ID,
+            'Type'       => 'SiteTree', // Ensures the admin hasn't intentionally changed this link
+            'MenuSetID'  => $menuSet->ID,
             'SiteTreeID' => $siteTreeID
         ]);
     }
