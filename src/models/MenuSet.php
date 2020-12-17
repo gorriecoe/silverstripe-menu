@@ -25,7 +25,7 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  *
  * @property string $Title
  * @property string $Slug
- * @property bool   $AllowChildren
+ * @property bool $AllowChildren
  * @method HasManyList|MenuLink[] Links()
  * @package silverstripe-menu
  */
@@ -180,7 +180,16 @@ class MenuSet extends DataObject implements
         if ($extended !== null) {
             return $extended;
         }
-        return Permission::check($this->PermissionKey(), 'any', $member);
+
+        // Restrict permissions based on saved key
+        if ($this->isInDB()) {
+            return Permission::check($this->PermissionKey(), 'any', $member);
+        }
+
+        // If canEdit() is called on an unsaved singleton, default to any users with CMS access
+        // This allows MenuLink objects to be created via gridfield,
+        // which will call the singleton MenuSet::canEdit()
+        return Permission::check('CMS_ACCESS', 'any', $member);
     }
 
     /**
