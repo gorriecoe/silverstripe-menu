@@ -6,8 +6,6 @@ use gorriecoe\Link\Models\Link;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
-use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\HasManyList;
@@ -24,8 +22,7 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  * @method HasManyList|MenuLink[] Children()
  * @package silverstripe-menu
  */
-class MenuLink extends Link implements
-    ScaffoldingProvider
+class MenuLink extends Link
 {
     /**
      * Defines the database table name
@@ -220,34 +217,6 @@ class MenuLink extends Link implements
             return $context['Parent']->canEdit();
         }
         return $this->MenuSet()->canEdit();
-    }
-
-    public function provideGraphQLScaffolding(SchemaScaffolder $scaffolder)
-    {
-        $scaffolder->type(MenuLink::class)
-            ->addAllFields()
-            ->addFields(['LinkURL'])
-            ->nestedQuery('Children')
-            ->setUsePagination(false)
-            ->end()
-            ->operation(SchemaScaffolder::READ)
-            ->setName('readMenuLinks')
-            ->setUsePagination(false)
-            ->end()
-            ->operation(SchemaScaffolder::READ_ONE)
-            ->setName('readOneMenuLink')
-            ->end()
-            ->operation(SchemaScaffolder::CREATE)
-            ->setName('createMenuLink')
-            ->end()
-            ->operation(SchemaScaffolder::UPDATE)
-            ->setName('updateMenuLink')
-            ->end()
-            ->operation(SchemaScaffolder::DELETE)
-            ->setName('deleteMenuLink')
-            ->end()
-            ->end();
-        return $scaffolder;
     }
 
     /**
