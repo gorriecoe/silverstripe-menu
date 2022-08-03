@@ -135,7 +135,7 @@ class MenuLink extends Link implements
      */
     public function isAllowedChildren()
     {
-        return $this->MenuSet()->AllowChildren;
+        return $this->isInDB() && $this->MenuSet()->AllowChildren;
     }
 
     /**
@@ -206,7 +206,7 @@ class MenuLink extends Link implements
     /**
      * DataObject create permissions
      * @param Member $member
-     * @param array  $context Additional context-specific data which might
+     * @param array $context Additional context-specific data which might
      *                        affect whether (or where) this object could be created.
      * @return boolean
      */
