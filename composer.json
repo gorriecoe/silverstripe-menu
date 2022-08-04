@@ -19,6 +19,7 @@
   "homepage": "http://github.com/gorriecoe/silverstripe-menu",
   "require": {
     "silverstripe/admin": "^1.0",
+    "silverstripe/graphql": "^4.0.0",
     "symbiote/silverstripe-gridfieldextensions": "^3.1",
     "gorriecoe/silverstripe-link": "^1.1"
   },
