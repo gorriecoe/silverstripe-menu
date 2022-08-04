@@ -10,8 +10,6 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
-use SilverStripe\GraphQL\Scaffolding\Interfaces\ScaffoldingProvider;
-use SilverStripe\GraphQL\Scaffolding\Scaffolders\SchemaScaffolder;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\HasManyList;
@@ -29,9 +27,7 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  * @method HasManyList|MenuLink[] Links()
  * @package silverstripe-menu
  */
-class MenuSet extends DataObject implements
-    PermissionProvider,
-    ScaffoldingProvider
+class MenuSet extends DataObject implements PermissionProvider
 {
     /**
      * Defines the database table name
@@ -274,46 +270,5 @@ class MenuSet extends DataObject implements
         return $this->Links()->filter([
             'ParentID' => 0
         ]);
-    }
-
-    public function provideGraphQLScaffolding(SchemaScaffolder $scaffolder)
-    {
-        $scaffolder->type(MenuSet::class)
-            ->addAllFields()
-            ->nestedQuery('Links')
-            ->setUsePagination(false)
-            ->end()
-            ->operation(SchemaScaffolder::READ)
-            ->setName('readMenuSets')
-            ->setUsePagination(false)
-            ->end()
-            ->operation(SchemaScaffolder::CREATE)
-            ->setName('createMenuSet')
-            ->end()
-            ->operation(SchemaScaffolder::UPDATE)
-            ->setName('updateMenuSet')
-            ->end()
-            ->operation(SchemaScaffolder::DELETE)
-            ->setName('deleteMenuSet')
-            ->end()
-            ->end()
-            ->query('readOneMenuSet', MenuSet::class)
-            ->setUsePagination(false)
-            ->addArgs([
-                'Slug' => 'String!'
-            ])
-            ->setResolver(function ($object, array $args, $context, ResolveInfo $info) {
-                if (!singleton(MenuSet::class)->canView($context['currentUser'])) {
-                    throw new \InvalidArgumentException(sprintf(
-                        '%s view access not permitted',
-                        MenuSet::class
-                    ));
-                }
-                if ($args['Slug']) {
-                    return MenuSet::get()->find('Slug', $args['Slug']);
-                }
-            })
-            ->end();
-        return $scaffolder;
     }
 }
