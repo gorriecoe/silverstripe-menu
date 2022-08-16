@@ -83,7 +83,7 @@ class MenuLink extends Link
      * Default sort ordering
      * @var array
      */
-    private static $default_sort = ['Sort' => 'ASC'];
+    private static $default_sort = 'Sort ASC';
 
     /**
      * CMS Fields
