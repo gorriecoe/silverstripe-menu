@@ -6,12 +6,3 @@ Only:
 gorriecoe\Menu\Models\MenuSet:
   extensions:
     - gorriecoe\Menu\Extensions\MenuSetSubsiteExtension
----
-Only:
-  moduleexists: 'silverstripe/graphql'
----
-SilverStripe\GraphQL\Controller:
-  schema:
-    scaffolding_providers:
-      - gorriecoe\Menu\Models\MenuSet
-      - gorriecoe\Menu\Models\MenuLink
